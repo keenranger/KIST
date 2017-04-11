@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.carapplication.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+
+        <EditText
+            android:id="@+id/sendString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <requestFocus />
+            // xml로 포커스 주는 방법
+        </EditText>
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/receiveString"
+            android:layout_toRightOf="@+id/sendString"
+            android:text="Send"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <EditText
+            android:id="@+id/receiveString"
+            android:layout_width="0dp"
+            android:layout_height="495dp"
+            android:layout_alignLeft="@+id/sendString"
+            android:layout_alignRight="@+id/sendButton"
+            android:layout_below="@+id/sendString"
+            android:ems="10"
+            android:focusable="false"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
+
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
