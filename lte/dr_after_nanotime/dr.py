@@ -27,7 +27,7 @@ for row in sen:
 array_g = array_g[1:, :]
 # heading end
 
-plt.plot(sen[:,0],sen[:,6])
+# plt.plot(sen[:,0],sen[:,6])
 
 # peak start
 array_y = np.array([[0, 0]])
@@ -90,7 +90,7 @@ for row in array_g:
 # dr end
 array_dr=np.cumsum(array_d,axis=0)
 
-# plt.plot(array_g[:,0],array_g[:,1])
+plt.plot(array_dr[:,1],array_dr[:,2])
 # plt.savefig('temp.png')
 plt.show()
 
