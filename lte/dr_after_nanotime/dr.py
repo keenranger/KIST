@@ -25,7 +25,6 @@ for row in sen:
         (array_g, (np.array([[row[0], math.degrees(deg)]]))), axis=0)
     time = row[0]
 # heading end
-
 # peak start
 array_y = np.array([[0, 0]])#no flag, make array in advance
 thres = 0.
@@ -68,10 +67,14 @@ for row in array_y:
 array_v = array_v[1:, :]
 # vel end
 
+# print(array_v)
+
+
 # dr start
 time = 0.
 inv = 0.
 a = 0
+temp=0.
 for row in array_g:
     if time == 0:
         array_d = np.array([[row[0], 0, 0]])#first row, save init time
@@ -80,15 +83,23 @@ for row in array_g:
     inv = (row[0] - time)#time interval between array_g row : ns
     time = row[0]
     dist = 0.
+    if row[0]<array_v[0,0] or row[0]>array_v[-1,0]:#if gyro data is out of range of velocity data, don`t check it
+        continue
     for row2 in array_v:#to sync time between velocity and heading. check vel for every heading.
-        if row[0] > row2[0]:
-            dist = inv * pow(10, -9) * row2[1]#inv is nano second, row2[1] array_v is m/s so multiply 10^-9
+        vel=row2[1]
+#            dist = inv * pow(10, -9) * row2[1]#inv is nano second, row2[1] array_v is m/s so multiply 10^-9
+        if row[0] < row2[0]:
+            dist = inv * pow(10, -9) * vel#inv is nano second, row2[1] array_v is m/s so multiply 10^-9
+            temp+=dist
             break
     array_d = np.concatenate(
         (array_d, (np.array([[(inv), dist * math.cos(math.radians(row[1])), dist * math.sin(math.radians(row[1]))]]))), axis=0)#first row: init time and 0,0 other row: time past after last row and distance during that period
 # dr end
-array_d = np.cumsum(array_d, axis=0)#1st row : init time and 0,0  other row : time and x,y
-plt.plot(array_d[:, 0])
+array_dr = np.cumsum(array_d, axis=0)#1st row : init time and 0,0  other row : time and x,y
+# print(array_d[:,1])
+plt.plot(array_dr[:, 1],array_dr[:, 2])
+# plt.plot(array_v[:,0],array_v[:,1])
+print(temp)
 # plt.plot(array_dr[:,1],array_dr[:,2])
 # plt.savefig('temp.png')
 # print(array_d[:,0])
