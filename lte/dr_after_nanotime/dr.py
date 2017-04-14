@@ -1,3 +1,11 @@
+"""
+This program is designed to do dead reckoning(DR) using two accel/gyro sensor.
+One attached to frame to calculate heading using angular velocity
+And the other attached to tire to calculate velocity.
+We can find two peaks(hig/low) every revolution.
+And knowing the circumference, we can calculate velocity.
+using these two values, DR.
+"""
 import numpy as np
 # import tensorflow as tf
 import matplotlib.pyplot as plt
