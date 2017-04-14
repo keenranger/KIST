@@ -32,20 +32,20 @@ flag = 0
 time = 0.
 for row in car:
     if flag == 0:#finding high peak
-        if time == 0. or row[0] - time > pow(10, 8):#check whether it`s first time or whether it`s time interval between last low peak over 0.1s
-            if row[2] > thres:#find biggest value
-                thres = row[2]
-                time = row[0]
+        if row[2] > thres:#find biggest value and refresh time
+            thres = row[2]
+            time = row[0]
+        if row[0] - time > pow(10, 8):#check whether it`s time interval between last low peak over 0.1s
             if row[2] < 0 and thres > 12000:#if value become lower than 0 and saved thres value is enough
                 array_y = np.concatenate(
                     (array_y, (np.array([[time, thres]]))), axis=0)
                 thres = 0.
                 flag = 1
     if flag == 1:#finding low peak
+        if row[2] < thres:#find smallest value and refresh time
+            thres = row[2]
+            time = row[0]
         if row[0] - time > pow(10, 8):#check whether it`s time interval between last low peak over 0.1s
-            if row[2] < thres:#find smallest value
-                thres = row[2]
-                time = row[0]
             if row[2] > 0 and thres < -12000:#if value become bigger than 0 and saved thres value is enough
                 array_y = np.concatenate(
                     (array_y, (np.array([[time, thres]]))), axis=0)
