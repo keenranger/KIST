@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 import math
 
-sen_data = np.loadtxt('sen1.txt', unpack=True)
-car_data = np.loadtxt('car1.txt', unpack=True)
+sen_data = np.loadtxt('0418/sen2.txt', unpack=True)
+car_data = np.loadtxt('0418/car2.txt', unpack=True)
 
 sen = np.transpose(sen_data)
 car = np.transpose(car_data)
