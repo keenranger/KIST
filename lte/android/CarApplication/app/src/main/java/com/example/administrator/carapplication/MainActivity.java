@@ -26,7 +26,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.CellInfo;
 import android.telephony.CellInfoLte;
@@ -197,8 +196,6 @@ public class MainActivity extends Activity {
 
     // 데이터 수신(쓰레드 사용 수신된 메시지를 계속 검사함)
     void beginListenForData() {
-        final Handler handler = new Handler();
-
         readBufferPosition = 0;                 // 버퍼 내 수신 문자 저장 위치.
         readBuffer = new byte[1024];            // 수신 버퍼.
         // 문자열 수신 쓰레드.
@@ -227,11 +224,6 @@ public class MainActivity extends Activity {
                                     final String data = new String(encodedBytes, "US-ASCII");
                                     datasave.cardata_save(data);
                                     readBufferPosition = 0;
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                        }
-                                    });
                                 } else {
                                     readBuffer[readBufferPosition++] = b;
                                 }
@@ -339,7 +331,13 @@ public class MainActivity extends Activity {
             mSensorThread.interrupt();
             mInputStream.close();
             mSocket.close();
-        } catch (Exception e) {
+            DataSave.foscar.close();
+            DataSave.fossen.close();
+            DataSave.foslte.close();
+            DataSave.boscar.close();
+            DataSave.bossen.close();
+            DataSave.boslte.close();
+            } catch (Exception e) {
         }
         super.onDestroy();
     }
@@ -372,8 +370,6 @@ public class MainActivity extends Activity {
     }
 
     void beginLteGpsData() {
-        final Handler handler = new Handler();
-
         mLteGpsThread = new Thread(new Runnable() {
             public void run() {
                 while (!Thread.currentThread().isInterrupted()) {
@@ -391,10 +387,6 @@ public class MainActivity extends Activity {
                         stringNeighboring = stringNeighboring + "\t" + a;
                         datasave.ltedata_save(stringNeighboring, latitute, longitude, height);
                         Thread.sleep(2000);
-                        handler.post(new Runnable() {
-                            public void run() {
-                            }
-                        });
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "LTEGPS Thread failure.", Toast.LENGTH_LONG).show();
                         finish();            // App 종료.
@@ -409,17 +401,12 @@ public class MainActivity extends Activity {
     }
 
     void beginSensorData() {
-        final Handler handler = new Handler();
         mSensorThread = new Thread(new Runnable() {
             public void run() {
                 while (!Thread.currentThread().isInterrupted()) {
                     try {
                         datasave.sendata_save(acc[0], acc[1], acc[2], gyro[0], gyro[1], gyro[2], mag_field[0], mag_field[1], mag_field[2], pre);
                         Thread.sleep(5);
-                        handler.post(new Runnable() {
-                            public void run() {
-                            }
-                        });
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Sensor Thread failure.", Toast.LENGTH_LONG).show();
                         finish();            // App 종료.
